@@ -82,7 +82,7 @@ fun ageDescription(age: Int): String {
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
                    t3: Double, v3: Double): Double {
-        if (t1<0||t2<0||t3<0||v1<0||v2<0||v3<0) return Double.NaN
+    if (t1<0||t2<0||t3<0||v1<0||v2<0||v3<0) return Double.NaN
     val s1=t1*v1
     val s2=t2*v2
     val s3=t3*v3
@@ -91,7 +91,7 @@ fun timeForHalfWay(t1: Double, v1: Double,
         s1 > (s/2) -> s/(v1*2)
         s1+s2 > (s/2) -> t1+(s/2-s1)/v2
         else -> t1+t2+(s/2-s1-s2)/v3
-        }
+    }
 }
 
 /**
