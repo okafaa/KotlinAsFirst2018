@@ -56,13 +56,14 @@ fun daysInMonth(month: Int, year: Int): Int = when {
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
                  x2: Double, y2: Double, r2: Double): Boolean {
-    if (r1 > r2) return false
+    if (r1 > r2)
     else {
         val d = Math.sqrt(sqr(x2 - x1) + sqr(y2 - y1))
         val x = r2 - r1
         val y = r2 + r1
         return !((x < d && d < y) || !(d < y))
     }
+    return false
 }
 
 /**

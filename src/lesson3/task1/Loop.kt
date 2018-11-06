@@ -1,6 +1,7 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson3.task1
 
+import kotlinx.html.ARel.index
 import lesson1.task1.sqr
 import java.lang.Math.pow
 import kotlin.math.*
@@ -200,14 +201,16 @@ fun collatzSteps(x: Int): Int {
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun sin(x: Double, eps: Double): Double {
-    var temp = 1
+    var temp = 1.0
     val x2 = x % (2 * PI)
-    var res = 0.0
-    var a = 1
-    while (abs(pow(x2, temp.toDouble()) / factorial(temp)) >= eps) {
-        res += pow(x2, temp.toDouble()) / factorial(temp) * a
+    var res = x2
+    var a = x2
+    while (true) {
+        a = -a * x2 * x2 / (temp + 1) / (temp + 2)
+        if (abs(a) < eps)
+            break
+        res += a
         temp += 2
-        a *= -1
     }
     return res
 }
