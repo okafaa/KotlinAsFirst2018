@@ -69,10 +69,10 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun digitNumber(n: Int): Int {
-    var number = n
+    var number = abs(n)
     var x = 0
     do {
-        number /=10
+        number /= 10
         x++
     } while (number > 0)
     return x
@@ -93,8 +93,8 @@ fun fib(n: Int): Int {
             a += b
             b = a - b
         }
-        return a
     }
+    return a
 }
 
 /**
@@ -104,8 +104,8 @@ fun fib(n: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    val max = max (n, m)
-    val min = min (n, m)
+    val max = max(n, m)
+    val min = min(n, m)
     var number = max
     while (number % min != 0) number += max
     return number
@@ -130,11 +130,7 @@ fun minDivisor(n: Int): Int {
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int {
-    var max = n - 1
-    while (n % max != 0) max--
-    return max
-}
+fun maxDivisor(n: Int) = n / minDivisor(n)
 
 /**
  * Простая
@@ -187,13 +183,11 @@ fun collatzSteps(x: Int): Int {
     var count = 0
     var x1 = x
     while (x1 != 1) {
-        if (x1 % 2 == 0) {
-            x1 / 2
-            count++
-        } else {
+        count++
+        if (x1 % 2 == 0)
+            x1 /= 2
+        else
             x1 = x1 * 3 + 1
-            count++
-        }
     }
     return count
 }
@@ -206,11 +200,11 @@ fun collatzSteps(x: Int): Int {
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun sin(x: Double, eps: Double): Double {
-    var temp =1
+    var temp = 1
     val x2 = x % (2 * PI)
     var res = 0.0
-    var a =1
-    while (abs(pow(x2, temp.toDouble()) /factorial(temp)) >= eps) {
+    var a = 1
+    while (abs(pow(x2, temp.toDouble()) / factorial(temp)) >= eps) {
         res += pow(x2, temp.toDouble()) / factorial(temp) * a
         temp += 2
         a *= -1
@@ -248,10 +242,10 @@ fun cos(x: Double, eps: Double): Double {
  */
 fun revert(n: Int): Int {
     var n1 = 0
-    val number = n
-    while (number != 0) {
+    var number = n
+    while (number > 0) {
         n1 = n1 * 10 + number % 10
-        number / 10
+        number /= 10
     }
     return n1
 }
@@ -265,7 +259,7 @@ fun revert(n: Int): Int {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun isPalindrome(n: Int): Boolean = n == revert (n)
+fun isPalindrome(n: Int): Boolean = n == revert(n)
 
 /**
  * Средняя
@@ -276,11 +270,11 @@ fun isPalindrome(n: Int): Boolean = n == revert (n)
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun hasDifferentDigits(n: Int): Boolean {
-    val a = n / 10
+    var a = n / 10
     val b = n % 10
     while (a > 0) {
         if (a % 10 != b) return true
-        a / 10
+        a /= 10
     }
     return false
 }
@@ -318,7 +312,7 @@ fun squareSequenceDigit(n: Int): Int {
 fun fibSequenceDigit(n: Int): Int {
     var n1 = 0
     var number = 0
-    while ( n1 < n) {
+    while (n1 < n) {
         number++
         n1 += digitNumber(fib(number))
     }
