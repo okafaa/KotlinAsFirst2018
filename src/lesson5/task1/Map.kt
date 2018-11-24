@@ -94,7 +94,20 @@ fun buildWordSet(text: List<String>): MutableSet<String> {
  *     mapOf("Emergency" to "911", "Police" to "02")
  *   ) -> mapOf("Emergency" to "112, 911", "Police" to "02")
  */
-fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> = TODO()
+fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String>{
+    val a = mutableMapOf<String, String>()
+    for (res in mapA) {
+        a.put(res.key, res.value)
+    }
+    for (res in mapB) {
+        if (a.containsKey(res.key) && (a.get(res.key) != mapB.get(res.key))) {
+            a.put(res.key, a.get(res.key)!! + ", " + res.value)
+        } else {
+            a.put(res.key, res.value)
+        }
+    }
+    return a
+}
 
 /**
  * Простая
@@ -106,7 +119,14 @@ fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<S
  *   buildGrades(mapOf("Марат" to 3, "Семён" to 5, "Михаил" to 5))
  *     -> mapOf(5 to listOf("Семён", "Михаил"), 3 to listOf("Марат"))
  */
-fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> = TODO()
+fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
+    val gradesStudent = mutableMapOf<Int, List<String>>()
+    for ((a, b) in grades)
+        gradesStudent[b] = gradesStudent.getOrDefault(b, listOf()) + a
+    for ((a, b) in gradesStudent)
+        gradesStudent[a] = b.sortedDescending()
+    return gradesStudent
+}
 
 /**
  * Простая
