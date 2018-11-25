@@ -138,7 +138,8 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "z", "b" to "sweet")) -> true
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "zee", "b" to "sweet")) -> false
  */
-fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean = TODO()
+fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean = a.all { (key, value) -> value == b[key] }
+
 
 /**
  * Средняя
@@ -167,7 +168,19 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
  *     "печенье"
  *   ) -> "Мария"
  */
-fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? = TODO()
+fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? {
+    var c = Double.MAX_VALUE
+    var best = buildString {}
+    for ((name, b) in stuff) {
+        if (b.first == kind) {
+            if (b.second < c) {
+                c = b.second
+                best = name
+            }
+        } else return null
+    }
+    return best
+}
 
 /**
  * Сложная
@@ -193,7 +206,25 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  *          "Mikhail" to setOf("Sveta", "Marat")
  *        )
  */
-fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> = TODO()
+fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> {
+    val final = mutableMapOf<String, Set<String>>()
+    val a = mutableSetOf<String>()
+    for ((name, people) in friends) {
+        a += name
+        a += people
+    }
+    for (name in a) {
+        val handShake = friends[name]?.toMutableSet() ?: mutableSetOf()
+        for (c in 0 until (friends.size - 1))
+            for (people in friends.keys) {
+                if (people in handShake) handShake += friends[people]?.toMutableSet() ?: mutableSetOf()
+                handShake -= name
+            }
+        final += (name to handShake)
+    }
+    return final
+}
+
 
 /**
  * Простая
@@ -209,7 +240,7 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   subtractOf(a = mutableMapOf("a" to "z"), mapOf("a" to "z"))
  *     -> a changes to mutableMapOf() aka becomes empty
  */
-fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>): Unit = TODO()
+fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) = a.keys.removeIf { b[it] == a[it] }
 
 /**
  * Простая
@@ -227,7 +258,10 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = TODO()
  * Например:
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
-fun canBuildFrom(chars: List<Char>, word: String): Boolean = TODO()
+fun canBuildFrom(chars: List<Char>, word: String): Boolean {
+    val lowerChars = chars.map { it.toLowerCase() }
+    return word.toLowerCase().all { it in lowerChars }
+}
 
 /**
  * Средняя
