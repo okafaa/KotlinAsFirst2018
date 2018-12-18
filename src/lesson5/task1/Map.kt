@@ -95,7 +95,7 @@ fun buildWordSet(text: List<String>): MutableSet<String> {
  *   ) -> mapOf("Emergency" to "112, 911", "Police" to "02")
  */
 fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String>{
-    val a = mutableMapOf<String, String>()
+    val a = mapA.toMutableMap()
     for (res in mapA) {
         a.put(res.key, res.value)
     }
@@ -170,7 +170,7 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
  */
 fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? {
     var c = Double.MAX_VALUE
-    var best = buildString {}
+    var best = String.toString()
     for ((name, b) in stuff) {
         if (b.first == kind) {
             if (b.second < c) {
@@ -247,7 +247,7 @@ fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) = a.keys.r
  *
  * Для двух списков людей найти людей, встречающихся в обоих списках
  */
-fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = TODO()
+fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = a.toSet().intersect(b.toSet()).toList()
 
 /**
  * Средняя
@@ -258,10 +258,8 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = TODO()
  * Например:
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
-fun canBuildFrom(chars: List<Char>, word: String): Boolean {
-    val lowerChars = chars.map { it.toLowerCase() }
-    return word.toLowerCase().all { it in lowerChars }
-}
+fun canBuildFrom(chars: List<Char>, word: String): Boolean =
+        word.toLowerCase().toSet().all {it -> it in chars.map { it.toLowerCase()}.toSet()}
 
 /**
  * Средняя
@@ -286,7 +284,14 @@ fun extractRepeats(list: List<String>): Map<String, Int> = TODO()
  * Например:
  *   hasAnagrams(listOf("тор", "свет", "рот")) -> true
  */
-fun hasAnagrams(words: List<String>): Boolean = TODO()
+fun hasAnagrams(words: List<String>): Boolean {
+    val list = mutableListOf<List<Char>>()
+    for (element in words) {
+        if (element.toList().sorted() in list) return true
+        else list.add(element.toList().sorted())
+    }
+    return false
+}
 
 /**
  * Сложная
