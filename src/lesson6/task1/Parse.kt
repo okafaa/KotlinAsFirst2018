@@ -34,6 +34,7 @@ fun twoDigitStr(n: Int) = if (n in 0..9) "0$n" else "$n"
  * Дано seconds -- время в секундах, прошедшее с начала дня.
  * Вернуть текущее время в виде строки в формате "ЧЧ:ММ:СС".
  */
+//**********
 fun timeSecondsToStr(seconds: Int): String {
     val hour = seconds / 3600
     val minute = (seconds % 3600) / 60
@@ -121,7 +122,10 @@ fun dateDigitToStr(digital: String): String {
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String =
+        if (!Regex("""[\d+()\s-]+""").matches(phone)) ""
+else Regex("""[()\s-]+""").replace(phone,"")
+
 
 /**
  * Средняя
@@ -133,7 +137,14 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    val res = mutableListOf<Int>()
+    if (!Regex("""[\d\-%\s]+""").matches(jumps)) return -1
+    if (!jumps.contains(Regex("""[\d]"""))) return -1
+    val a = Regex("""[-%]+""").replace(jumps, "")
+    for (e in a.split(Regex("""[\s]+"""))) res.add(e.toInt())
+    return res.max()!!
+}
 
 /**
  * Сложная
@@ -145,7 +156,16 @@ fun bestLongJump(jumps: String): Int = TODO()
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    val res = mutableListOf<Int>()
+    val a = jumps.split(" ")
+    if (!Regex("""[\d%+\s\-]+""").matches(jumps)) return -1
+    for (i in 1 until a.size step 2) {
+        if (a[i].contains("+")) res.add(a[i - 1].toInt())
+    }
+    if (res.isEmpty()) return -1
+    return res.max()!!.toInt()
+}
 
 /**
  * Сложная
