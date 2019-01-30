@@ -2,6 +2,8 @@
 
 package lesson6.task1
 
+import lesson2.task2.daysInMonth
+
 /**
  * Пример
  *
@@ -71,7 +73,18 @@ fun main(args: Array<String>) {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    if (!Regex("\\d{1,2}+ [а-я]+ \\d+").matches(str)) return ""
+    val str = str.split(" ")
+    val year = str.last().toInt()
+    val date = str.first().toInt()
+    val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября",
+            "октября", "ноября", "декабря")
+    val month = months.indexOf(str[1]) + 1
+    if (month == 0) return ""
+    if (date !in 1..daysInMonth(month, year)) return ""
+    return String.format("%02d.%02d.%d", date, month, year)
+}
 
 /**
  * Средняя
@@ -83,7 +96,18 @@ fun dateStrToDigit(str: String): String = TODO()
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30 февраля 2009) считается неверными
  * входными данными.
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    if (!Regex("\\d{2}\\.\\d{2}\\.\\d+").matches(digital)) return ""
+    val digital1 = digital.split(".")
+    val year = digital1.last().toInt()
+    val date = digital1.first().toInt()
+    if (digital1[1].toInt() < 1 || digital1[1].toInt() > 12) return ""
+    val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября",
+            "октября", "ноября", "декабря")
+    val month = months[digital1[1].toInt() - 1]
+    if (date !in 1..daysInMonth(digital1[1].toInt(), year)) return ""
+    return String.format("%d %s %d", date, month, year)
+}
 
 /**
  * Средняя
